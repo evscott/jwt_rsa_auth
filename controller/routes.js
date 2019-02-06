@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const middleware = require("../utilities/middleware");
-const handler = require("../utilities/authHandler");
+const middleware = require("../handlers/middleware");
+const handler = require("../handlers/authHandler");
 
 // Basic routes
 router.post("/login", handler.login);
