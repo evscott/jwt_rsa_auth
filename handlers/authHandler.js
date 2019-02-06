@@ -6,18 +6,40 @@ const databaseHandler = require("./databaseHandler");
 let signup = async (req, res) => {
 	let username = req.body.username;
 	let password = req.body.password;
-	databaseHandler.signup("donky", "kong").then(success => {
-		console.log(success);
-	});
+
+	// Check if username & password already exist, else sign user up
+	try {
+		databaseHandler.signup(username, password).then(success => {
+			if (success) {
+				// User successfuly signed up
+				res.json({
+					success: true,
+					message: "Sign up successful!"
+				});
+			} else {
+				// User sign up unsuccessful
+				res.json({
+					success: false,
+					message: "Sign up unsuccessful."
+				});
+			}
+		});
+	} catch (err) {
+		// Respond with unknown failure
+		console.err(err);
+		res.json({
+			success: false,
+			message: "Sign up unsuccessful. This may be network related."
+		});
+	}
 };
 
 let login = async (req, res) => {
 	let username = req.body.username;
 	let password = req.body.password;
-
+	// Check if username and password exist, else reject login
 	try {
-		databaseHandler.login("donky", "kong").then(success => {
-			// Check if username and password exists in DB
+		databaseHandler.login(username, password).then(success => {
 			if (username && password) {
 				if (success) {
 					// Respond with token and success
@@ -47,7 +69,12 @@ let login = async (req, res) => {
 			}
 		});
 	} catch (err) {
+		// Respond with unknown failure
 		console.err(err);
+		res.json({
+			success: false,
+			message: "Authentication unsuccessful. This may be network related."
+		});
 	}
 };
 

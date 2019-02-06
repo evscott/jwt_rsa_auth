@@ -1,40 +1,29 @@
 const db = require("../model/database");
 const pool = db.getPool();
 
-async function signup(username, password) {
-	let query = `INSERT IGNORE INTO person (username, password) VALUES ("${username}", "${password}")`;
+// Sign up handler
+signup = async (username, password) => {
+	let signupQuery = `INSERT IGNORE INTO person (username, password) VALUES ("${username}", "${password}")`;
 	return new Promise((resolve, reject) => {
-		pool.query(query, (err, res) => {
-			if (err) {
-				reject(err);
-			} else if (res.affectedRows > 0) {
-				console.log("Successful signup.");
-				resolve(true);
-			} else if (res.affectedRows == 0) {
-				console.log("Unsuccessful signup.");
-				resolve(false);
-			}
+		pool.query(signupQuery, (err, res) => {
+			if (err) reject(err);
+			else if (res.affectedRows > 0) resolve(true);
+			else resolve(false);
 		});
 	});
-}
+};
 
-async function login(username, password) {
-	console.log("signup begin");
-	signup(username, password);
-	console.log("signup end");
-	let query = `SELECT * FROM person WHERE username="${username}" AND password="${password}"`;
+// Sign in handler
+login = async (username, password) => {
+	let loginQuery = `SELECT * FROM person WHERE username="${username}" AND password="${password}"`;
 	return new Promise((resolve, reject) => {
-		pool.query(query, (err, res) => {
-			if (err) {
-				reject(err);
-			} else if (res.length > 0) {
-				resolve(true);
-			} else {
-				resolve(false);
-			}
+		pool.query(loginQuery, (err, res) => {
+			if (err) reject(err);
+			else if (res.length > 0) resolve(true);
+			else resolve(false);
 		});
 	});
-}
+};
 
 module.exports = {
 	signup: signup,
