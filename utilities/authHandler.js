@@ -1,6 +1,6 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const config = require("../model/config");
+const Configs = require("../model/config");
 
 let login = (req, res) => {
 	let username = req.body.username;
@@ -11,8 +11,8 @@ let login = (req, res) => {
 		if (true) {
 			let token = jwt.sign(
 				{ username: username },
-				config.privatekey,
-				config.signOptions
+				Configs.privatekey,
+				Configs.signOptions
 			);
 			// return the JWT token for the future API calls
 			res.json({
