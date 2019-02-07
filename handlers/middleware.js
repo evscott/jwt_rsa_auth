@@ -1,4 +1,4 @@
-let jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const Configs = require("../model/config.js");
 
 let checkToken = (req, res, next) => {
