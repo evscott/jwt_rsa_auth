@@ -2,7 +2,7 @@ const db = require("../model/database");
 const pool = db.getPool();
 
 // Sign up handler
-signup = async (username, password) => {
+let signup = async (username, password) => {
 	let signupQuery = `INSERT IGNORE INTO person (username, password) VALUES ("${username}", "${password}")`;
 	return new Promise((resolve, reject) => {
 		pool.query(signupQuery, (err, res) => {
@@ -14,7 +14,7 @@ signup = async (username, password) => {
 };
 
 // Sign in handler
-login = async (username, password) => {
+let login = async (username, password) => {
 	let loginQuery = `SELECT * FROM person WHERE username="${username}" AND password="${password}"`;
 	return new Promise((resolve, reject) => {
 		pool.query(loginQuery, (err, res) => {
